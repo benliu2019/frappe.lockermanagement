@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include locker_management *.css
+recursive-include locker_management *.csv
+recursive-include locker_management *.html
+recursive-include locker_management *.ico
+recursive-include locker_management *.js
+recursive-include locker_management *.json
+recursive-include locker_management *.md
+recursive-include locker_management *.png
+recursive-include locker_management *.py
+recursive-include locker_management *.svg
+recursive-include locker_management *.txt
+recursive-exclude locker_management *.pyc
