@@ -1,0 +1,84 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format: {storage_cabinet} - {storage_volumn}",
+ "creation": "2023-06-08 11:44:00.134175",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "storage_cabinet",
+  "storage_volumn",
+  "section_break_vevhs",
+  "status",
+  "route",
+  "user"
+ ],
+ "fields": [
+  {
+   "fieldname": "storage_cabinet",
+   "fieldtype": "Data",
+   "label": "Storage Cabinet",
+   "reqd": 1
+  },
+  {
+   "fieldname": "storage_volumn",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Storage Volumn",
+   "options": "Large\nMiddle\nSmall",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_vevhs",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "in use\nfree"
+  },
+  {
+   "fieldname": "route",
+   "fieldtype": "Data",
+   "label": "route"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User ID",
+   "options": "User"
+  }
+ ],
+ "has_web_view": 1,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-06-15 16:59:16.577935",
+ "modified_by": "Administrator",
+ "module": "Locker Management",
+ "name": "Gym Booking Locker",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Customer",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "route": "locker",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

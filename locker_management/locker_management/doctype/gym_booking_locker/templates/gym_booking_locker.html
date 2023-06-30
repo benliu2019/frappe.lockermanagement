@@ -1,0 +1,117 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+
+<h2 style="text-align: center; color: #74A1BD;">Please book your locker here</h2>
+
+<div id="locker-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 5rem; font-family: Arial, sans-serif; color: #333; border: 2px solid #333; border-radius: 10px; padding: 20px; width: 50%; margin: 0 auto; box-shadow: 10px 10px 5px grey;">
+    <h4 style="margin-bottom: 20px;">Storage Cabinet: <span style="font-weight: bold; color: #74A1BD;">{{ storage_cabinet }}</span></h4>
+    <h4 style="margin-bottom: 20px;">Storage Volumn: <span style="font-weight: bold; color: #74A1BD;">{{ storage_volumn }}</span></h4>
+    <h4 id="status-text" style="margin-bottom: 20px;">Status: <span id="status-value" style="font-weight: bold;">{{ status }}</span></h4>
+    <a id="book-button" style="background-color: #74A1BD; color: #FFF; text-decoration: none; padding: 15px 30px; border-radius: 5px; font-weight: bold; transition: all 0.3s; display: inline-block; margin-top: 10px;" href="#" onmouseover="this.style.backgroundColor='#637D94'; this.style.color='#FFF'" onmouseout="this.style.backgroundColor='#74A1BD'; this.style.color='#FFF'">Book this Locker</a>
+    <a id="free-button" style="background-color: #DDD; color: #333; text-decoration: none; padding: 15px 30px; border-radius: 5px; font-weight: bold; transition: all 0.3s; display: inline-block; margin-top: 10px;" href="#" onmouseover="this.style.backgroundColor='#BBB'; this.style.color='#333'" onmouseout="this.style.backgroundColor='#DDD'; this.style.color='#333'">Free this Locker</a>
+
+    <script>
+        var status = "{{ status }}";
+        var statusText = document.getElementById("status-value");
+        var bookButton = document.getElementById("book-button");
+        var freeButton = document.getElementById("free-button");
+
+        if (status === "free") {
+            statusText.style.color = "green";
+            bookButton.style.backgroundColor = "#74A1BD";
+            bookButton.style.color = "#FFF";
+            freeButton.style.backgroundColor = "#637D94";
+            freeButton.style.color = "#FFF";
+        } else if (status === "in use") {
+            statusText.style.color = "red";
+            bookButton.style.backgroundColor = "#637D94";
+            bookButton.style.color = "#FFF";
+            freeButton.style.backgroundColor = "#DDD";
+            freeButton.style.color = "#333";
+        }
+    </script>
+</div>
+
+
+<script>
+    var bookButton = document.getElementById("book-button");
+    var freeButton = document.getElementById("free-button");
+    var statusValue = document.getElementById("status-value");
+
+    console.log(frappe.user_id);
+
+
+    // "Book this Locker"按钮点击事件
+    bookButton.addEventListener("click", function() {
+        
+        if(statusValue.textContent == 'free'){
+            setLockerStatusinuse()     
+        }
+        else{
+            frappe.show_alert({message:__('Locker is already in use!'), indicator:'red'});
+        }
+    });
+
+    function setLockerStatusinuse(){
+        frappe.call({
+            method:'locker_management.locker_management.doctype.gym_booking_locker.gym_booking_locker.set_locker_status_inuse',
+            args:{
+                "docname": '{{ storage_cabinet }}' + ' - ' +'{{ storage_volumn }}',
+                "user_id": frappe.user_id
+            },
+            callback: function(r){
+                console.log(r);
+                
+                if (r["message"]){
+                    frappe.msgprint({
+                        title: __('Notification'),
+                        indicator: 'red',
+                        message: __("You have already booked" + " " +r["message"])
+                    });        
+                }    
+                else{
+                    location.reload();
+                }
+                
+            }
+        })
+    }
+
+
+    freeButton.addEventListener("click", function() {
+    var status = statusValue.textContent;
+    var currentUser = '{{ user }}';
+    var isAdmin = frappe.user_id === 'Administrator';
+    
+
+        if (status === 'in use') {
+            if (currentUser === frappe.user_id || isAdmin) {
+                setLockerStatusFree();
+                frappe.show_alert({ message: __('Locker free!'), indicator: 'green' });
+            } else {
+                frappe.show_alert({ message: __('Permission denied!'), indicator: 'red' });
+            }
+        } else {
+            frappe.show_alert({ message: __('Locker is already free!'), indicator: 'red' });
+        }
+    });
+
+    function setLockerStatusFree() {
+        frappe.call({
+            method: 'locker_management.locker_management.doctype.gym_booking_locker.gym_booking_locker.set_locker_status_free',
+            args: {
+                "docname": '{{ storage_cabinet }}' + ' - ' + '{{ storage_volumn }}',
+                "user_id": frappe.user_id,
+            },
+            callback: function(r) {
+                console.log(r);
+                location.reload();
+            }
+        });
+    }
+
+    
+</script>
+
+{% endblock %}

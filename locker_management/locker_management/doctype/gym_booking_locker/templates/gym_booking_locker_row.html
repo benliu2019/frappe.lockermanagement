@@ -1,0 +1,66 @@
+<style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+    }
+
+    .table th,
+    .table td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+
+    .table th {
+        background-color: #74A1BD;
+		color: #fff;
+    }
+
+    .table td:last-child {
+        vertical-align: middle;
+		text-align: center;
+    }
+
+
+
+    .btn {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 4px;
+        background-color: #74A1BD;
+        color: #fff;
+        text-decoration: none;
+        text-align: center;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color:#637D94;
+    }
+</style>
+
+<div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Storage Cabinet</th>
+                    <th>Storage Volume</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ doc.storage_cabinet }}</td>
+                    <td>{{ doc.storage_volumn }}</td>
+                    <td>{{ doc.status }}</td>
+                    <td><a href="/locker/{{ doc.storage_cabinet }}" class="btn">Booking</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
